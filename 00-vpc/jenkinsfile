@@ -56,7 +56,7 @@ pipeline {
                 expression { params.ACTION == 'DESTROY' }
                  }
             Steps{
-                build job: '00-vpc', parameters: [string(name: 'ACTION', value: "apply")], wait: false
+                build job: '00-vpc', parameters: [string(name: 'ACTION', value: "apply")], wait: true
             }
         }
     }
