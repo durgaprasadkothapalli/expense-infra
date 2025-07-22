@@ -13,8 +13,8 @@ pipeline {
     // }
 
     parameters {
-       // choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Select Action')
-       choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Terraform action to perform')
+        choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Select Action')
+       //choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Terraform action to perform')
 
 
     }
