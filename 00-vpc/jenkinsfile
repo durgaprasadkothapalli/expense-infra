@@ -57,6 +57,7 @@ pipeline {
                 expression { params.ACTION == 'DESTROY' }
                  }
             Steps{
+                sh 'terraform destroy -auto approve'
                 build job: '00-vpc', parameters: [string(name: 'ACTION', value: "destroy")], wait: false
             }
         }
