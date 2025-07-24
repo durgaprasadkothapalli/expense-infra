@@ -57,7 +57,7 @@ pipeline {
                 expression { params.ACTION == 'DESTROY' }
                  }
          steps{
-                build job: '00-vpc', parameters: [string(name: 'ACTION', value: "destroy")], wait: false
+                build job: '00-vpc', parameters: [string(name: 'ACTION', value: "destroy")], wait: true
             }
         }
         //         stage ('Trigger SG') {
