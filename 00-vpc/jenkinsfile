@@ -52,22 +52,22 @@ pipeline {
                 }
             }
         }
-        stage ('Destroy vpc') {
-            when {
-                expression { params.ACTION == 'DESTROY' }
-                 }
-         steps{
-                build job: '00-vpc', parameters: [string(name: 'ACTION', value: "destroy")], wait: false
-            }
-        }
-        //         stage ('Trigger SG') {
+        // stage ('Destroy vpc') {
         //     when {
-        //         expression { params.ACTION == 'apply' }
-        //     }
-        //     steps{
-        //         build job: '10-sg', parameters: [string(name: 'ACTION', value: "apply")], wait: false
+        //         expression { params.ACTION == 'DESTROY' }
+        //          }
+        //  steps{
+        //         build job: '00-vpc', parameters: [string(name: 'ACTION', value: "destroy")], wait: false
         //     }
         // }
+                stage ('Trigger SG') {
+            when {
+                expression { params.ACTION == 'apply' }
+            }
+            steps{
+                build job: '10-sg', parameters: [string(name: 'ACTION', value: "apply")], wait: false
+            }
+        }
     }
 
     post {
