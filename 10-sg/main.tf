@@ -39,7 +39,7 @@ module "eks_control_plane_sg" {
 }
 
 module "ingress_alb_sg" {
-    source = "https://github.com/durgaprasadkothapalli/terraform-aws-security-group.git?ref=main"
+    source = "git::https://github.com/durgaprasadkothapalli/terraform-aws-security-group.git?ref=main"
     project_name = var.project_name
     environment = var.environment
     sg_name = "ingress-alb"
