@@ -6,7 +6,7 @@ pipeline {
     options{
         timeout(time: 30, unit: 'MINUTES')
         disableConcurrentBuilds()
-        //ansiColor('xterm')
+        ansiColor('xterm')
     }
     // environment {
     //     DEBUG = 'true'
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                     sh """
-                        cd 00-vpc
+                        cd 10-sg
                         terraform init -reconfigure -upgrade
                         terraform plan -out=tfplan
                     """
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                     sh """
-                        cd 00-vpc
+                        cd 10-sg
                         if [ ${params.ACTION} == 'apply' ]
                         then
                             terraform apply -auto-approve tfplan
