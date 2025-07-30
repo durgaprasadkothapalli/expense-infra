@@ -1,5 +1,5 @@
 module "mysql_sg" {
-    source = "git::https://github.com/HemanthKumar-75/terraform-aws-security-group.git?ref=main"
+    source = "git::https://github.com/daws-81s/terraform-aws-security-group.git?ref=main"
     project_name = var.project_name
     environment = var.environment
     sg_name = "mysql"
@@ -9,7 +9,7 @@ module "mysql_sg" {
 }
 
 module "bastion_sg" {
-    source = "git::https://github.com/HemanthKumar-75/terraform-aws-security-group.git?ref=main"
+    source = "git::https://github.com/daws-81s/terraform-aws-security-group.git?ref=main"
     project_name = var.project_name
     environment = var.environment
     sg_name = "bastion"
@@ -19,7 +19,7 @@ module "bastion_sg" {
 }
 
 module "node_sg" {
-    source = "git::https://github.com/HemanthKumar-75/terraform-aws-security-group.git?ref=main"
+    source = "git::https://github.com/daws-81s/terraform-aws-security-group.git?ref=main"
     project_name = var.project_name
     environment = var.environment
     sg_name = "node"
@@ -29,7 +29,7 @@ module "node_sg" {
 }
 
 module "eks_control_plane_sg" {
-    source = "git::https://github.com/HemanthKumar-75/terraform-aws-security-group.git?ref=main"
+    source = "git::https://github.com/daws-81s/terraform-aws-security-group.git?ref=main"
     project_name = var.project_name
     environment = var.environment
     sg_name = "eks-control-plane"
@@ -39,7 +39,7 @@ module "eks_control_plane_sg" {
 }
 
 module "ingress_alb_sg" {
-    source = "git::https://github.com/HemanthKumar-75/terraform-aws-security-group.git?ref=main"
+    source = "git::https://github.com/daws-81s/terraform-aws-security-group.git?ref=main"
     project_name = var.project_name
     environment = var.environment
     sg_name = "ingress-alb"
@@ -113,8 +113,8 @@ resource "aws_security_group_rule" "node_bastion" {
 
 resource "aws_security_group_rule" "mysql_bastion" {
   type              = "ingress"
-  from_port         = 22
-  to_port           = 22
+  from_port         = 3306
+  to_port           = 3306
   protocol          = "tcp"
   source_security_group_id       = module.bastion_sg.id
   security_group_id = module.mysql_sg.id
@@ -128,4 +128,13 @@ resource "aws_security_group_rule" "bastion_public" {
   protocol          = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
   security_group_id = module.bastion_sg.id
+}
+
+resource "aws_security_group_rule" "mysql_node" {
+  type              = "ingress"
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+  source_security_group_id = module.node_sg.id
+  security_group_id = module.mysql_sg.id
 }
