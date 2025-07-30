@@ -70,6 +70,23 @@ pipeline {
         }
     }
 
+    stage('parallel In Sequential') {
+    parallel(
+        stage { 'In parallel 1'{
+            steps {
+
+            }
+        }
+        stage('In Parallel 2') (
+            steps{
+        
+        echo "In Parallel 2"
+      }
+      }
+    )
+  }
+}
+
     post {
         always{
             echo "This sections runs always"
