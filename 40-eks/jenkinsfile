@@ -23,7 +23,7 @@ pipeline {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                     sh """
-                        cd 00-vpc
+                        cd 40-eks
                         terraform init -reconfigure -upgrade
                         terraform plan -out=tfplan
                     """
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                     sh """
-                        cd 00-vpc
+                        cd 40-eks
                         if [ ${params.ACTION} == 'apply' ]
                         then
                             terraform apply -auto-approve tfplan
@@ -60,12 +60,12 @@ pipeline {
         //         build job: '00-vpc', parameters: [string(name: 'ACTION', value: "destroy")], wait: false
         //     }
         // }
-                stage ('Trigger SG') {
+                stage ('40-eks') {
             when {
                 expression { params.ACTION == 'apply' }
             }
             steps{
-                build job: '10-sg', parameters: [string(name: 'ACTION', value: "apply")], wait: false
+                build job: '40-eks', parameters: [string(name: 'ACTION', value: "apply")], wait: false
             }
         }
     }
@@ -75,19 +75,19 @@ pipeline {
                 expression { params.ACTION == 'apply' }
             }
     parallel{
-        stage ( 'Bastion'){
+        stage { 'Bastion'{
              steps{
                 build job: '20-bastion', parameters: [string(name: 'ACTION', value: "apply")], wait: false
             }
         }
-        stage('40-EKS') {
+        stage('40-EKS') (
              steps{
                 build job: '40-eks', parameters: [string(name: 'ACTION', value: "apply")], wait: false
             }
     
       
       }
-    }
+    )
   }
 }
 
