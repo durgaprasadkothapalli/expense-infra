@@ -80,16 +80,16 @@ pipeline {
                 build job: '20-bastion', parameters: [string(name: 'ACTION', value: "apply")], wait: false
             }
         }
-        stage('40-EKS') (
+        stage('40-EKS') {
              steps{
                 build job: '40-eks', parameters: [string(name: 'ACTION', value: "apply")], wait: false
             }
-    
+        }
       
       }
-    )
+    }
   }
-}
+
 
     post {
         always{
