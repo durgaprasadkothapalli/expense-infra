@@ -70,11 +70,11 @@ pipeline {
         }
     }
 
-    stage ('parallel In Sequential') {
+    stage ('Parallel In Sequential') {
           when {
                 expression { params.ACTION == 'apply' }
             }
-    parallel{
+    Parallel{
         stage ('Bastion') {
              steps{
                 build job: '20-bastion', parameters: [string(name: 'ACTION', value: "apply")], wait: false
