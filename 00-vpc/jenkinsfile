@@ -70,27 +70,6 @@ pipeline {
         }
     }
 
-    stage('parallel In Sequential') {
-          when {
-                expression { params.ACTION == 'apply' }
-            }
-    parallel{
-        stage ( 'Bastion'){
-             steps{
-                build job: '20-bastion', parameters: [string(name: 'ACTION', value: "apply")], wait: false
-            }
-        }
-        stage('40-EKS') {
-             steps{
-                build job: '40-eks', parameters: [string(name: 'ACTION', value: "apply")], wait: false
-            }
-    
-      
-      }
-    }
-  }
-
-
     post {
         always{
             echo "This sections runs always"
